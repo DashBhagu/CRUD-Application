@@ -1,0 +1,253 @@
+<!doctype html>
+<html>
+<head>
+  <title>CRUD APPLICATION </title>
+  <style>
+  body > table{
+     width:80%;
+	 }
+  table{
+    border-collapse:collapse;
+	}
+  table.list{
+     width:100%;
+	 }
+  td,th{
+    border:1px solid #dddddd;
+	taxt-align:left;
+	padding:8px;
+	}
+  tr:nth-child(even),table.list thead>tr{
+    background-color:#ccc;
+	}
+	input[type=text],input[type=number]{
+	   width:100%;
+	   padding:12px 20px;
+	   margin:8px 0;
+	   display:inline-block;
+	   border:1px solid #ccc;
+	   border-radius:4px;
+	   box-sizing:border-box;
+	   
+	  }
+	input[type=submit],[type=button]{
+	   width: 30%;
+	   background-color:#ddd;
+	   color:#000;
+	   padding:10px 20px;
+	   margin:5px 5px;
+	   border: none;
+	   border-radius:4px;
+	   cursor:pointer;
+	  }
+	form div.form-action-buttons{
+	   text-align:right;
+	   }
+	a{
+	  cursor:pointer;
+	  text-decoration:underline;
+	  color:#0000ee;
+	  margin-right:4px;
+	  }
+	label.validation-error{
+	   color:red;
+	   margin-left:5px;
+	   }
+	.hide{
+	   display:none;
+	   }
+	 
+	
+	   
+    
+	</style>
+</head>
+<body>
+<table>
+    <tr>
+	<td>
+ <form onsubmit="event.preventDefault();onFormSubmit();"autocomplete="off">
+    <div>
+	    <label>Login Id</label>
+		<input type="text" name="Loginid" id="Loginid">
+     </div>
+     
+	  <div>
+	    <label>Invoice No</label>
+		<input type="text" name="invoiceno" id="invoiceno">
+     </div>
+	  <div>
+	    <label>Invoice Data</label>
+		<input type="text" name="invoicedata" id="invoicedata">
+     </div>
+	  <div>
+	    <label>Customer Name</label>
+		<input type="text" name="custname" id="custname">
+     </div>
+     <div>
+	    <label>Phone</label>
+		<input type="number" name="Phone" id="Phone"> 
+     </div>
+   
+	    <label>Name</label>
+		<input type="text" name="Name" id="Name">
+     </div> <div>
+	    <label>Quantity</label>
+		<input type="text" name="quantity" id="quantity">
+     </div> 
+	 <div>
+	    <label>Unit Price</label>
+		<input type="text" name="unitprice" id="unitprice">
+     </div>
+	 
+	 <div>
+	    <label></label>
+		<fieldset id="total" name="total"><span id="result" ></span></fieldset>
+		<br>
+		<input type="button" onClick="Total()" value="Total" >
+     </div>
+     <div class="form-action-buttons">
+		<input type="Submit" value="Submit" id="Submit">
+     </div>
+	 
+  </form>
+   
+  </td>
+  <td>
+   <table class="list" id="employeeList">
+   <thead>
+   <tr> 
+     <th rowspan="2">Login Id</th>
+     <th colspan="3">Customer </th>
+     <th rowspan="2">Phone</th>
+     <th colspan="3">Product</th>
+	
+	 </tr>
+	 <tr> 
+     <th>Invoice No</th>
+     <th>Invoice Data</th>
+     <th>Customer Name</th>
+     <th>Name</th>
+     <th>Quantity</th>
+     <th>Unit Price</th> 
+    
+	 <th></th>
+	 </tr>
+	 
+	 </thead>
+	 <tbody>
+	    
+	 </tbody>
+	 
+	</table>
+     </td>
+	 </tr>
+   </table>
+       <script>
+	       var  selectedRow = null
+		   
+		  function onFormSubmit(){
+           var formData = readFormData();
+		     if (selectedRow == null)
+           insertNewRecord(formData);
+		   else
+		    updateRecord(formData);
+		   resetForm();
+      }
+ 
+ function readFormData(){
+   var formData ={};
+  formData["Loginid"] =document.getElementById("Loginid").value;
+  
+  formData["invoiceno"] =document.getElementById("invoiceno").value;
+  formData["invoicedata"] =document.getElementById("invoicedata").value;
+  formData["custname"] =document.getElementById("custname").value;
+  formData["Phone"] =document.getElementById("Phone").value;
+  
+  formData["Name"] =document.getElementById("Name").value;
+  formData["quantity"] =document.getElementById("quantity").value;
+  formData["unitprice"] =document.getElementById("unitprice").value;
+  return formData;
+}
+ function insertNewRecord(data){
+   var table = document.getElementById("employeeList").getElementsByTagName('tbody')[0];
+   var newRow = table.insertRow(table.length);
+cell1= newRow.insertCell(0);
+cell1.innerHTML=data.Loginid;
+
+cell2= newRow.insertCell(1);
+cell2.innerHTML=data.invoiceno;
+cell3=newRow.insertCell(2);
+cell3.innerHTML=data.invoicedata;
+cell4=newRow.insertCell(3);
+cell4.innerHTML=data.custname;
+cell5=newRow.insertCell(4);
+cell5.innerHTML=data.Phone;
+
+cell6= newRow.insertCell(5);
+cell6.innerHTML=data.Name;
+cell7=newRow.insertCell(6);
+cell7.innerHTML=data.quantity;
+cell8= newRow.insertCell(7);
+cell8.innerHTML=data.unitprice;
+cell9=newRow.insertCell(8);
+cell9.innerHTML= '<a onClick="onEdit(this)">Edit</a><a onClick="onDelete(this)">Delete</a>';
+}
+
+ function resetForm(){
+   document.getElementById("Loginid").value="";
+   document.getElementById("Invoiceno").value="";
+   document.getElementById("invoicedata").value=""; 
+   document.getElementById("custname").value="";
+   document.getElementById("Phone").value="";
+   document.getElementById("Name").value="";
+   document.getElementById("quantity").value="";
+   document.getElementById("unitprice").value="";
+   selectedRow = null;
+}
+   function onEdit(td){
+     selectedRow =td.parentElement.parentElement;
+	 document.getElementById("Loginid").value=selectedRow.cells[0].innerHTML;
+	
+	 document.getElementById("invoiceno").value=selectedRow.cells[1].innerHTML;
+	 document.getElementById("invoicedata").value=selectedRow.cells[2].innerHTML;
+	 document.getElementById("custname").value=selectedRow.cells[3].innerHTML;
+	 document.getElementById("Phone").value=selectedRow.cells[4].innerHTML;
+	 
+	  document.getElementById("Name").value=selectedRow.cells[5].innerHTML;
+	 document.getElementById("quantity").value=selectedRow.cells[6].innerHTML;
+	 document.getElementById("unitprice").value=selectedRow.cells[7].innerHTML;
+	 }
+   function updateRecord(formData){
+      selectedRow.cells[0].innerHTML=formData.Loginid;
+      
+	  selectedRow.cells[1].innerHTML=formData.invoiceno;
+      selectedRow.cells[2].innerHTML=formData.invoicedata;
+      selectedRow.cells[3].innerHTML=formData.custname;
+      selectedRow.cells[4].innerHTML=formData.Phone;
+      
+	  selectedRow.cells[5].innerHTML=formData.Name;
+      selectedRow.cells[6].innerHTML=formData.quantity;
+      selectedRow.cells[7].innerHTML=formData.unitprice;
+	  
+	  }
+   function onDelete(td){
+     if(confirm('Are you sure  to delete?')){
+        row =td.parentElement.parentElement;
+	 document.getElementById("employeeList").deleteRow(row.rowIndex);
+	 resetForm();
+	 }
+	 }
+	 
+	function Total(){
+	qty = document.getElementById("quantity").value;
+    price = document.getElementById("unitprice").value;
+	document.getElementById("result").innerHTML= qty * price;
+	}
+	
+	   
+	   
+</script>
+   </body>
+   </html>
+       
